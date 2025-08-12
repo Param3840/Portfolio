@@ -1,0 +1,207 @@
+  // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const toggleCircle = document.getElementById('toggle-circle');
+        const body = document.body;
+        
+        // Check for saved theme preference or default to dark mode
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        
+        // Apply the saved theme
+        if (currentTheme === 'light') {
+            body.classList.add('light-mode');
+            toggleCircle.style.transform = 'translateX(32px)';
+            toggleCircle.textContent = '☀️';
+            themeToggle.classList.add('bg-emerald-500');
+            themeToggle.classList.remove('bg-gray-600');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                // Switch to light mode
+                toggleCircle.style.transform = 'translateX(32px)';
+                toggleCircle.textContent = '☀️';
+                themeToggle.classList.add('bg-emerald-500');
+                themeToggle.classList.remove('bg-gray-600');
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Switch to dark mode
+                toggleCircle.style.transform = 'translateX(0px)';
+                toggleCircle.textContent = '🌙';
+                themeToggle.classList.add('bg-gray-600');
+                themeToggle.classList.remove('bg-emerald-500');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking on links
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animate skill bars when skills section is visible
+                    if (entry.target.id === 'skills') {
+                        const skillBars = entry.target.querySelectorAll('.skill-bar');
+                        skillBars.forEach((bar, index) => {
+                            setTimeout(() => {
+                                bar.classList.add('animate');
+                            }, index * 200);
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Project carousel functionality
+        let currentProject = 0;
+        const projectCards = document.querySelectorAll('.project-card');
+        const projectIndicators = document.querySelectorAll('.project-indicator');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function showProject(index) {
+            // Hide all cards
+            projectCards.forEach((card, i) => {
+                card.classList.remove('active', 'prev');
+                if (i === index) {
+                    card.classList.add('active');
+                } else if (i < index) {
+                    card.classList.add('prev');
+                }
+            });
+
+            // Update indicators
+            projectIndicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+                indicator.classList.toggle('bg-emerald-500', i === index);
+                indicator.classList.toggle('bg-gray-500', i !== index);
+            });
+
+            currentProject = index;
+        }
+
+        function nextProject() {
+            const nextIndex = (currentProject + 1) % projectCards.length;
+            showProject(nextIndex);
+        }
+
+        function prevProject() {
+            const prevIndex = (currentProject - 1 + projectCards.length) % projectCards.length;
+            showProject(prevIndex);
+        }
+
+        // Event listeners for project navigation
+        nextBtn.addEventListener('click', nextProject);
+        prevBtn.addEventListener('click', prevProject);
+
+        // Indicator click handlers
+        projectIndicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => showProject(index));
+        });
+
+        // Auto-advance projects every 5 seconds
+        setInterval(nextProject, 5000);
+
+       
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive effects
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.querySelector('.cursor');
+            if (!cursor) {
+                const newCursor = document.createElement('div');
+                newCursor.className = 'cursor fixed w-4 h-4 bg-emerald-400 rounded-full pointer-events-none z-50 mix-blend-difference';
+                document.body.appendChild(newCursor);
+            }
+            
+            const cursorElement = document.querySelector('.cursor');
+            cursorElement.style.left = e.clientX - 8 + 'px';
+            cursorElement.style.top = e.clientY - 8 + 'px';
+        });
+     
+
+const scriptURL = "https://script.google.com/macros/s/AKfycbx3TnbMY81iPq4lheo4vYqf4a6ygnaCEFO4WJta3Coupa5wrv18r4VGFPSgBb19exlK/exec";
+const form = document.getElementById("contactForm");
+const submitBtn = form.querySelector("button[type='submit']");
+
+form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    // Button state change to "Sending..."
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending... ⏳";
+
+    const formData = {
+        name: form.name.value,
+        email: form.email.value,
+        subject: form.subject.value,
+        message: form.message.value
+    };
+
+    fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(formData)
+    })
+    .then(res => res.json())
+    .then(() => {
+        // Show success in button
+        submitBtn.textContent = "Message Sent ✅";
+        
+        // Reset form after 2 sec
+        setTimeout(() => {
+            submitBtn.textContent = "Send Message 🚀";
+            submitBtn.disabled = false;
+            form.reset();
+        }, 2000);
+    })
+    .catch(err => {
+        console.error("Error!", err);
+        submitBtn.textContent = "Error ❌";
+        
+        setTimeout(() => {
+            submitBtn.textContent = "Send Message 🚀";
+            submitBtn.disabled = false;
+        }, 2000);
+    });
+});

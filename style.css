@@ -1,0 +1,163 @@
+  @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes bounceCustom {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes pulseCustom {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes cardFlip {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+        
+        .animate-slideInLeft { animation: slideInLeft 1s ease-out; }
+        .animate-fadeInUp { animation: fadeInUp 1s ease-out; }
+        .animate-bounce-custom { animation: bounceCustom 2s infinite; }
+        .animate-pulse-custom { animation: pulseCustom 2s infinite; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-slideInRight { animation: slideInRight 1s ease-out; }
+        .animate-cardFlip { animation: cardFlip 0.6s ease-in-out; }
+        
+        .section { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+        .section.visible { opacity: 1; transform: translateY(0); }
+        
+        .skill-bar { width: 0%; transition: width 2s ease-out; }
+        .skill-bar.animate { width: var(--width); }
+        
+        .project-card {
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .project-card.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .project-card.prev {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        /* Light Mode Styles */
+        .light-mode {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%) !important;
+            color: #1f2937 !important;
+        }
+        
+        /* Background Colors */
+        .light-mode .bg-black { background-color: rgba(255, 255, 255, 0.9) !important; }
+        .light-mode .bg-gray-700 { background-color: #e5e7eb !important; }
+        .light-mode .bg-gray-800 { background-color: #f3f4f6 !important; }
+        .light-mode .bg-gray-600 { background-color: #d1d5db !important; }
+        .light-mode .bg-opacity-20 { background-color: rgba(255, 255, 255, 0.8) !important; }
+        .light-mode .bg-opacity-40 { background-color: rgba(255, 255, 255, 0.9) !important; }
+        
+        /* Text Colors */
+        .light-mode .text-white { color: #1f2937 !important; }
+        .light-mode .text-gray-300 { color: #4b5563 !important; }
+        .light-mode .text-gray-400 { color: #6b7280 !important; }
+        .light-mode .text-gray-500 { color: #9ca3af !important; }
+        .light-mode .text-gray-700 { color: #374151 !important; }
+        
+        /* Border Colors */
+        .light-mode .border-gray-600 { border-color: #d1d5db !important; }
+        .light-mode .border-gray-700 { border-color: #e5e7eb !important; }
+        
+        /* Placeholder Colors */
+        .light-mode .placeholder-gray-400::placeholder { color: #9ca3af !important; }
+        
+        /* Gradient Backgrounds */
+        .light-mode .from-emerald-800 { --tw-gradient-from: #d1fae5 !important; }
+        .light-mode .to-emerald-900 { --tw-gradient-to: #a7f3d0 !important; }
+        .light-mode .from-cyan-800 { --tw-gradient-from: #cffafe !important; }
+        .light-mode .to-cyan-900 { --tw-gradient-to: #a5f3fc !important; }
+        .light-mode .from-purple-800 { --tw-gradient-from: #e9d5ff !important; }
+        .light-mode .to-purple-900 { --tw-gradient-to: #c4b5fd !important; }
+        .light-mode .from-teal-800 { --tw-gradient-from: #ccfbf1 !important; }
+        .light-mode .to-teal-900 { --tw-gradient-to: #99f6e4 !important; }
+        .light-mode .from-slate-900 { --tw-gradient-from: #f1f5f9 !important; }
+        .light-mode .via-purple-900 { --tw-gradient-via: #e9d5ff !important; }
+        .light-mode .to-slate-900 { --tw-gradient-to: #f1f5f9 !important; }
+        
+        /* Card Gradients */
+        .light-mode .from-emerald-600 { --tw-gradient-from: #10b981 !important; }
+        .light-mode .to-emerald-700 { --tw-gradient-to: #059669 !important; }
+        .light-mode .from-cyan-600 { --tw-gradient-from: #0891b2 !important; }
+        .light-mode .to-cyan-700 { --tw-gradient-to: #0e7490 !important; }
+        .light-mode .from-purple-600 { --tw-gradient-from: #9333ea !important; }
+        .light-mode .to-purple-700 { --tw-gradient-to: #7c3aed !important; }
+        .light-mode .from-teal-600 { --tw-gradient-from: #0d9488 !important; }
+        .light-mode .to-teal-700 { --tw-gradient-to: #0f766e !important; }
+        
+        /* Shadows */
+        .light-mode .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important; }
+        .light-mode .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important; }
+        .light-mode .shadow-emerald-500\/25 { box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.25) !important; }
+        
+        /* Header backdrop */
+        .light-mode .backdrop-blur-md { backdrop-filter: blur(12px) !important; background-color: rgba(255, 255, 255, 0.8) !important; }
+        
+        /* Button hover states */
+        .light-mode .bg-white { background-color: #1f2937 !important; }
+        .light-mode .bg-opacity-30 { background-color: rgba(31, 41, 55, 0.3) !important; }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #10b981, #06b6d4, #3b82f6);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .typing-animation {
+            overflow: hidden;
+            border-right: 3px solid #10b981;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #10b981; }
+        }
