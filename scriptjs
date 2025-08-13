@@ -160,48 +160,35 @@
             cursorElement.style.top = e.clientY - 8 + 'px';
         });
      
-
-const scriptURL = "https://script.google.com/macros/s/AKfycbx3TnbMY81iPq4lheo4vYqf4a6ygnaCEFO4WJta3Coupa5wrv18r4VGFPSgBb19exlK/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxw0xtZr_NQQ-xl3HgUu5m23cs6ciqZaN-WGhQKMh5W_thgGxQyC9ZFHfKuwHNWhZPg/exec"; 
 const form = document.getElementById("contactForm");
-const submitBtn = form.querySelector("button[type='submit']");
+const submitBtn = form?.querySelector("button[type='submit']");
 
-form.addEventListener("submit", e => {
+if (form && submitBtn) {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Button state change to "Sending..."
     submitBtn.disabled = true;
     submitBtn.textContent = "Sending... ⏳";
 
-    const formData = {
-        name: form.name.value,
-        email: form.email.value,
-        subject: form.subject.value,
-        message: form.message.value
-    };
+    const data = new FormData(form);
 
-    fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(formData)
-    })
-    .then(res => res.json())
-    .then(() => {
-        // Show success in button
-        submitBtn.textContent = "Message Sent ✅";
-        
-        // Reset form after 2 sec
-        setTimeout(() => {
-            submitBtn.textContent = "Send Message 🚀";
-            submitBtn.disabled = false;
-            form.reset();
-        }, 2000);
-    })
-    .catch(err => {
-        console.error("Error!", err);
-        submitBtn.textContent = "Error ❌";
-        
-        setTimeout(() => {
-            submitBtn.textContent = "Send Message 🚀";
-            submitBtn.disabled = false;
-        }, 2000);
-    });
-});
+    try {
+      await fetch(scriptURL, { method: "POST", body: data });
+      submitBtn.textContent = "Message Sent ✅";
+      setTimeout(() => {
+        submitBtn.textContent = "Send Message 🚀";
+        submitBtn.disabled = false;
+        form.reset();
+      }, 1500);
+    } catch (error) {
+      console.error("Error!", error);
+      submitBtn.textContent = "Error ❌";
+      setTimeout(() => {
+        submitBtn.textContent = "Send Message 🚀";
+        submitBtn.disabled = false;
+      }, 1500);
+    }
+  });
+}
+
