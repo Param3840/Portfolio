@@ -4,7 +4,7 @@ import { Application, SPEObject, SplineEvent } from "@splinetool/runtime";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 const Spline = React.lazy(() => import("@splinetool/react-spline"));
-import { Skill, SkillNames, SKILLS } from "@/data/constants";
+import { Skill, SkillName, SKILLS } from "@/data/constants";
 import { sleep } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { usePreloader } from "./preloader";
@@ -50,7 +50,7 @@ const AnimatedBackground = () => {
       }
     } else {
       if (!selectedSkillRef.current || selectedSkillRef.current.name !== e.target.name) {
-        const skill = SKILLS[e.target.name as SkillNames];
+        const skill = SKILLS[e.target.name as SkillName];
         if (skill) {
           if (selectedSkillRef.current) playReleaseSound();
           playPressSound();
@@ -82,7 +82,7 @@ const AnimatedBackground = () => {
     });
     splineApp.addEventListener("keyDown", (e) => {
       if (!splineApp || isInputFocused()) return;
-      const skill = SKILLS[e.target.name as SkillNames];
+      const skill = SKILLS[e.target.name as SkillName];
       if (skill) {
         playPressSound();
         setSelectedSkill(skill);
