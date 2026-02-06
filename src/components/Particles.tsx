@@ -3,7 +3,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useMousePosition } from "@/utils/mouse";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
 
 interface ParticlesProps {
   className?: string;
@@ -20,9 +19,6 @@ export default function Particles({
   ease = 50,
   refresh = false,
 }: ParticlesProps) {
-  const pathname = usePathname();
-  const isBlogPost = pathname.startsWith("/blogs/") && pathname !== "/blogs";
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const context = useRef<CanvasRenderingContext2D | null>(null);
@@ -33,7 +29,6 @@ export default function Particles({
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
 
   useEffect(() => {
-    if (isBlogPost) return
     if (canvasRef.current) {
       context.current = canvasRef.current.getContext("2d");
     }
@@ -44,7 +39,7 @@ export default function Particles({
     return () => {
       window.removeEventListener("resize", initCanvas);
     };
-  }, [isBlogPost]);
+  }, []);
 
   useEffect(() => {
     onMouseMove();
@@ -175,12 +170,11 @@ export default function Particles({
   const animate = () => {
     clearContext();
     circles.current.forEach((circle: Circle, i: number) => {
-      // Handle the alpha value
       const edge = [
-        circle.x + circle.translateX - circle.size, // distance from left edge
-        canvasSize.current.w - circle.x - circle.translateX - circle.size, // distance from right edge
-        circle.y + circle.translateY - circle.size, // distance from top edge
-        canvasSize.current.h - circle.y - circle.translateY - circle.size, // distance from bottom edge
+        circle.x + circle.translateX - circle.size,
+        canvasSize.current.w - circle.x - circle.translateX - circle.size,
+        circle.y + circle.translateY - circle.size,
+        canvasSize.current.h - circle.y - circle.translateY - circle.size,
       ];
       const closestEdge = edge.reduce((a, b) => Math.min(a, b));
       const remapClosestEdge = parseFloat(
@@ -197,24 +191,23 @@ export default function Particles({
       circle.x += circle.dx;
       circle.y += circle.dy;
       circle.translateX +=
-        (mouse.current.x / (staticity / circle.magnetism) - circle.translateX) /
+        (mouse.current.x / (staticity / circle.magnetism) -
+          circle.translateX) /
         ease;
       circle.translateY +=
-        (mouse.current.y / (staticity / circle.magnetism) - circle.translateY) /
+        (mouse.current.y / (staticity / circle.magnetism) -
+          circle.translateY) /
         ease;
-      // circle gets out of the canvas
+
       if (
         circle.x < -circle.size ||
         circle.x > canvasSize.current.w + circle.size ||
         circle.y < -circle.size ||
         circle.y > canvasSize.current.h + circle.size
       ) {
-        // remove the circle from the array
         circles.current.splice(i, 1);
-        // create a new circle
         const newCircle = circleParams();
         drawCircle(newCircle);
-        // update the circle position
       } else {
         drawCircle(
           {
@@ -231,8 +224,6 @@ export default function Particles({
     });
     window.requestAnimationFrame(animate);
   };
-
-  if (isBlogPost) return null;
 
   return (
     <div
